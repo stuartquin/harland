@@ -3,12 +3,20 @@
              [prone.middleware :as prone]
              [prone.debug :refer [debug]]
              [taoensso.timbre :as timbre]
+             [cheshire.core :refer [encode decode]]
              [compojure.handler :refer [site]]
              [compojure.core :refer [defroutes GET POST context]]
              [org.httpkit.server :refer [run-server]]))
 
-(defn build-project [request]
-  (build/schedule-build "harland"))
+; @TODO this should probably be POST/PUT?
+(defn build-project
+  "Schedules a build"
+  [request]
+  (let [project (:project (:params request))]
+    (build/schedule-build project)
+    {:status 200
+     :body (encode {:project project
+                    :build "SOME_ID"})}))
 
 (defn status [request]
   "<p>Running</p>")

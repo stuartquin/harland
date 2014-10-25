@@ -5,4 +5,4 @@
 
 (deftest a-test
   (fact "This test will fail"
-    (+ 1 1) => 1))
+    (+ 1 1) => 2))
