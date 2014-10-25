@@ -8,7 +8,6 @@
              [org.httpkit.server :refer [run-server]]))
 
 (defn build-project [request]
-  (debug)
   (build/schedule-build "harland"))
 
 (defn status [request]
