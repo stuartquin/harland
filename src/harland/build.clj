@@ -9,4 +9,4 @@
       (sh/with-programs [docker]
         (docker "build" "--force-rm=true" t path)))
     (catch Exception e
-      (println (ex-data e)))))
+      (ex-data e))))
