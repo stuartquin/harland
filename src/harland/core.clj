@@ -1,15 +1,15 @@
 (ns harland.core
-  (:require  [harland.build :refer [build]]
+  (:require  [harland.build :as build]
              [prone.middleware :as prone]
              [prone.debug :refer [debug]]
+             [taoensso.timbre :as timbre]
              [compojure.handler :refer [site]]
              [compojure.core :refer [defroutes GET POST context]]
              [org.httpkit.server :refer [run-server]]))
 
 (defn build-project [request]
-  (println "Called Build")
   (debug)
-  (build "harland" "."))
+  (build/schedule-build "harland"))
 
 (defn status [request]
   "<p>Running</p>")
@@ -25,4 +25,5 @@
               {:port 8080}))
 
 (defn -main [& args]
-  (start-server :development))
+  (start-server :development)
+  (timbre/info "Server started on 8080"))

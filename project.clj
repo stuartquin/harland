@@ -9,6 +9,8 @@
                  [compojure "1.2.1"]
                  [ring "1.2.1"]
                  [prone "0.6.0"]
+                 [com.taoensso/carmine "2.7.0"]
+                 [com.taoensso/timbre "3.3.1"]
                  [com.stuartsierra/component "0.2.2"]
                  [me.raynes/conch "0.8.0"]]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
