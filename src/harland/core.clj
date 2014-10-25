@@ -1,5 +1,6 @@
-(ns harland.build)
+(ns harland.core)
 
-(defn build
-  "Runs docker build on project"
+(defn foo
+  "I don't do a whole lot."
   [x]
+  (println x "Hello, World!"))

@@ -1,7 +1,8 @@
 (ns harland.core-test
   (:require [clojure.test :refer :all]
+            [midje.sweet :refer :all]
             [harland.core :refer :all]))
 
 (deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+  (fact "This test will fail"
+    (+ 1 1) => 1))
