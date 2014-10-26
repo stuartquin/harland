@@ -5,7 +5,7 @@
             [taoensso.carmine :as car :refer (wcar)]))
 
 ; TODO move this to conf file or something
-(def master-redis "redis://localhost:6379")
+(def master-redis (System/getenv "REDIS_URI"))
 (def server-conn {:pool {} :spec {:uri master-redis}})
 (defmacro wcar* [& body] `(car/wcar server-conn ~@body))
 
