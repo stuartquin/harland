@@ -44,3 +44,17 @@
           (when res
             (async/>!! chan (clojure.string/split res #"\|"))))))
       chan))
+
+(defn get-most-recent-build
+  ""
+  [proj]
+  1)
+
+(defn get-build-info
+  "Gets all build info"
+  [proj i]
+  (let [id (if (nil? i) (get-most-recent-build proj) i)
+        prefix (str "project:" proj ":build:" id)
+        fields [:status :out :err]
+        info (map (fn [x] (wcar* (car/get (str prefix x)))) fields)]
+    (zipmap fields info)))

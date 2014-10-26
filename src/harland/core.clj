@@ -22,8 +22,10 @@
 (defn get-build
   "Gets the most recent build for a project"
   [request]
-  (let [project (:project (:params request))]
-   ))
+  (let [proj (:project (:params request))
+        id (:id (:params request))]
+  {:status 200
+   :body (encode (m/get-build-info proj id))}))
 
 (defn status [request]
   {:status 200
@@ -32,6 +34,7 @@
 
 (defroutes all-routes
   (GET "/project/:project/build" [] get-build)
+  (GET "/project/:project/build/:id" [] get-build)
   (POST "/project/:project/build" [] build-project)
   (GET "/status" [] status))
 
