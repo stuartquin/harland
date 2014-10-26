@@ -1,14 +1,18 @@
 # harland
 
-A Clojure library designed to ... well, that part is up to you.
+API based 
 
 ## Usage
 
-FIXME
+Run API (with docker):
 
-## License
+```
+# Create and run redis
+docker run -d -p 6379:6379 -v /tmp/redis-data:/data --name redis dockerfile/redis
+ 
+# Build (dev only)
+HARLAND_ID=`docker build .`
 
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+# Run with linked redis
+docker run -p 8080:8080 --link redis:redis $HARLAND_ID
+```
