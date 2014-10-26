@@ -2,7 +2,8 @@
   (:require [me.raynes.conch :as sh]
             [harland.messaging :as m]
             [clojure.core.async :as async]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as timbre])
+  (:gen-class))
 
 (defn build
   "Runs a build using conch"

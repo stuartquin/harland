@@ -6,7 +6,8 @@
             [cheshire.core :refer [encode decode]]
             [compojure.handler :refer [site]]
             [compojure.core :refer [defroutes GET POST context]]
-            [org.httpkit.server :refer [run-server]]))
+            [org.httpkit.server :refer [run-server]])
+  (:gen-class))
 
 ; @TODO this should probably be POST/PUT?
 (defn build-project

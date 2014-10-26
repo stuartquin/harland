@@ -15,7 +15,6 @@
   (let [prefix (str "project:" proj)
         id (wcar* (car/incr (str prefix ":builds")))]
     (wcar* 
-    ;  (car/set (str prefix ":build:" id ":status") "QUEUED")
       (car/lpush "build:queue" (str proj "|" id)))
     id))
 
