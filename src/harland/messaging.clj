@@ -26,6 +26,11 @@
       (car/set (str prefix ":error") err)
       (car/set (str prefix ":out") out))))
 
+(defn status
+  "Ping redis connection"
+  []
+  (wcar* (car/ping)))
+
 (defn poll-build-queue
   "Polls the build queue"
   []
