@@ -13,10 +13,10 @@
   "Schedules a build"
   [request]
   (let [project (:project (:params request))]
-    (m/schedule-build project)
+    (timbre/info "[POST] build-project" project)
     {:status 200
      :body (encode {:project project
-                    :build "SOME_ID"})}))
+                    :build (m/schedule-build project)})}))
 
 (defn get-build
   "Gets the most recent build for a project"

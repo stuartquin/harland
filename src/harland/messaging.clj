@@ -13,10 +13,11 @@
   "Write to the build queue, should return a build id"
   [proj]
   (let [prefix (str "project:" proj)
-        id (wcar* (car/incr (prefix ":builds")))]
+        id (wcar* (car/incr (str prefix ":builds")))]
     (wcar* 
-      (car/lpush "build:queue" (str proj "|" id))
-      (car/set (str prefix ":build:" id ":status") "QUEUED"))))
+    ;  (car/set (str prefix ":build:" id ":status") "QUEUED")
+      (car/lpush "build:queue" (str proj "|" id)))
+    id))
 
 (defn update-build
   [proj id status out err]
