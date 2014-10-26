@@ -26,7 +26,9 @@
    ))
 
 (defn status [request]
-  "<p>Running</p>")
+  {:status 200
+   :body (encode {:http true
+                  :redis (m/status)})})
 
 (defroutes all-routes
   (GET "/project/:project/build" [] get-build)

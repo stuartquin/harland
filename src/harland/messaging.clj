@@ -29,7 +29,7 @@
 (defn status
   "Ping redis connection"
   []
-  (wcar* (car/ping)))
+  (= "PONG" (wcar* (car/ping))))
 
 (defn poll-build-queue
   "Polls the build queue"
