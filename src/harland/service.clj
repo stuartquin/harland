@@ -1,12 +1,9 @@
 (ns harland.service
-  (require [me.raynes.conch :as sh]
-           [taoensso.timbre :as timbre]
-           [taoensso.carmine :as car :refer (wcar)]))
-
-; TODO move this to conf file or something
-(def master-redis "redis://localhost:6379")
-(def server-conn {:pool {} :spec {:uri master-redis}})
-(defmacro wcar* [& body] `(car/wcar server-conn ~@body))
+  (:require [me.raynes.conch :as sh]
+            [harland.messaging :as m]
+            [clojure.core.async :as async]
+            [taoensso.timbre :as timbre]
+            [taoensso.carmine :as car :refer (wcar)]))
 
 (defn build
   "Runs a build using conch"
@@ -22,26 +19,18 @@
 ; TODO no build history yet
 (defn save-output
   "Pushes build output to redis"
-  [project out]
-  (wcar*
-    (timbre/info "Saving build output")
-    (if (:proc out)
-      (do
-        (car/set (str "build-result:" project) "FAILURE")
-        (car/set (str "build-error:" project) (:err (:proc out)))
-        (car/set (str "build-output:" project) (apply str (:out (:proc out)))))
-      (do
-        (car/set (str "build-result:" project) "SUCCESS")
-        (car/set (str "build-error:" project) nil)
-        (car/set (str "build-output:" project) out)))))
+  [proj id out]
+  (timbre/info "Saving build output")
+  (if (:proc out)
+    (m/update-build proj id "FAILURE" (apply str (:out (:proc out))) (:err (:proc out)))
+    (m/update-build proj id "SUCCESS" out nil)))
 
-(defn poll
-  "Polls the build queue"
+(defn start-service
   []
-  (while true
-    (timbre/info "Polling for builds")
-    (let [result (wcar* (car/blpop "build-queue" 0))
-          project (second result)]
-      (when project
-        (timbre/info "Init Build" project)
-        (save-output project (build project  "."))))))
+  (let [chan (m/poll-build-queue)]
+    (while true
+      (let [[proj id] (async/<!! chan)]
+        (timbre/info "Build" proj id)))))
+
+(defn -main [& args]
+  (start-service))
