@@ -1,11 +1,9 @@
 # harland
-
 API based 
 
 ## Usage
 
 Run API (with docker):
-
 ```
 # Create and run redis
 docker run -d -p 6379:6379 -v /tmp/redis-data:/data --name redis dockerfile/redis
